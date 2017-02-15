@@ -1,49 +1,28 @@
 ﻿@model StoryTeller.Models.Post
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Story";
 }
 
-<h2>Details</h2>
+<h2>@Model.Title written by @Model.User.StoryTellerName in @Model.Created </h2>
 
-<div>
-    <h4>Post</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Subtitle)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Subtitle)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Text)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Text)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Created)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Created)
-        </dd>
-
-    </dl>
+<div class="row">
+    <div class="col-md-4">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/b/bb/Mikalojus_Konstantinas_Ciurlionis_-_FAIRY_TALE_(FAIRY_TALE_OF_KINGS)_-_1909.jpg" alt="Alternate Text" width="250" height="300" />
+    </div>
+    <div class="col-md-8">
+        <p>@Model.Text</p>
+    </div>
 </div>
+
+@*@{Html.RenderPartial("_LeaveCommentForm"); }*@
+
+@*@Html.DisplayForModel(Model.Comments)*@
+
+@*<div id="comments-data">
+    @Html.DisplayFor(x => x.Comments)
+</div>*@
+
 <p>
     @if (Model.User.StoryTellerName == ((System.Security.Claims.ClaimsIdentity)User.Identity).FindFirst("StoryTellerName")?.Value)
     {
@@ -55,5 +34,33 @@
         @Html.ActionLink("Back to List", "Index", "Story", new { id = Model.User.StoryTellerName }, null)
     }
 
-
 </p>
+
+
+@*@section scripts
+{
+    <script type="text/javascript">
+        $(function () {
+            $("#leaveComment-btn").click(function () {
+                var searchTerm = $("#comment-text").val();
+                if (searchTerm.length == 0) {
+                    alert("Enter some comment text.");
+                    $("#leaveComment-btn").focus();
+                    return false;
+                }
+
+                $.get("/Stories/LeaveComment", { commentText: searchTerm, postId :@Model.Id.ToString() })
+                .success(function (data) {
+                    $("#comments-data").html(data);
+                });
+            });
+
+            $("comment-textt").keypress(function (e) {
+                if (e.which == 13) {
+                    e.preventDefault();
+                    $("#leaveComment-btn").click();
+                }
+            });
+        });
+    </script>
+}*@
