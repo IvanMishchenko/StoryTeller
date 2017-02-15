@@ -198,6 +198,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\StoryController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -220,6 +221,7 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\MyCSS\Post.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -275,6 +277,14 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Story\Create.cshtml" />
+    <Content Include="Views\Story\Delete.cshtml" />
+    <Content Include="Views\Story\Details.cshtml" />
+    <Content Include="Views\Story\Edit.cshtml" />
+    <Content Include="Views\Story\Index.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\Post.cshtml" />
+    <Content Include="Views\Story\Partial\_SubscribeButton.cshtml" />
+    <Content Include="Views\Story\Partial\_UnsubscribeButton.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

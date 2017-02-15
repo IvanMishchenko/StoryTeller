@@ -24,7 +24,7 @@ namespace StoryTeller.Models
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
             var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
-            //userIdentity.AddClaim(new Claim("StoryTellerName", this.StoryTellerName));
+            userIdentity.AddClaim(new Claim("StoryTellerName", this.StoryTellerName));
             return userIdentity;
         }
     }

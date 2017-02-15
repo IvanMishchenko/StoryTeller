@@ -1,0 +1,89 @@
+﻿@model StoryTeller.Models.PostsUser
+
+@{
+    ViewBag.Title = "My Stories";
+}
+
+<h2>@Model.userToSubsribe.StoryTellerName</h2>
+@* <img profile photo> *@
+<p>Total Stories: @Model.Posts.Count() </p>
+
+<p>Following: @Model.userToSubsribe.Following.Count()</p>
+<p>Followers:<span id="countFollowers">@Model.userToSubsribe.Followers.Count()</span></p>
+
+
+<div id="subscribe-area">
+    @{
+        var temp = ViewContext.RouteData.Values["id"]?.ToString();
+
+        if (Context.User.Identity.IsAuthenticated && temp != null && temp != ((System.Security.Claims.ClaimsIdentity)User.Identity).FindFirst("StoryTellerName")?.Value)
+        {
+            if (Model.userToSubsribe.Followers.FirstOrDefault(x => x.StoryTellerName == ((System.Security.Claims.ClaimsIdentity)User.Identity).FindFirst("StoryTellerName")?.Value) != null)
+            {
+                Html.RenderPartial("~/Views/Story/Partial/_UnsubscribeButton.cshtml");
+            }
+            else
+            {
+                Html.RenderPartial("~/Views/Story/Partial/_SubscribeButton.cshtml");
+            }
+        }
+    }
+</div>
+
+<p>
+    @{
+        if (ViewContext.RouteData.Values["id"]?.ToString() == ((System.Security.Claims.ClaimsIdentity)User.Identity).FindFirst("StoryTellerName")?.Value)
+        {
+            @Html.ActionLink("Create New", "Create")
+        }
+    }
+</p>
+
+@if (Model.Posts.Count() > 0)
+{
+    <div id="post-data">
+        @Html.DisplayFor(model => Model.Posts)
+    </div>
+}
+else
+{
+    <h3>Sorry!</h3>
+    <p class="text text-danger">There is no stories to show</p>
+}
+
+
+@section scripts
+{
+    <script type="text/javascript" language="javascript">
+        $(function () {
+
+            $(document).on('click', '#subscribe-btn', function(event) {
+                $.get("/Story/Subscribe", { userToSubsribeId: "@Model.userToSubsribe.StoryTellerName" })
+                 .success(function (data) {
+                    $("#subscribe-area").html(data);
+
+                    var countFollowers = parseInt(document.getElementById("countFollowers").textContent);
+                    countFollowers++;
+
+                    document.getElementById("countFollowers").textContent = countFollowers;
+                });
+                
+            });
+
+            $(document).on('click', '#unsubscribe-btn', function (event) {
+                $.get("/Story/Unsubscribe", { userToSubsribeId: "@Model.userToSubsribe.StoryTellerName" })
+                 .success(function (data) {
+                     $("#subscribe-area").html(data);
+
+                     var countFollowers = parseInt(document.getElementById("countFollowers").textContent);
+                     countFollowers--;
+
+                     document.getElementById("countFollowers").textContent = String(countFollowers);
+                 });
+
+            });
+
+            //$('.dot1').dotdotdot();
+        });
+    </script>
+}
