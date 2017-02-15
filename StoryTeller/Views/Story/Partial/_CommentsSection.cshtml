@@ -1,0 +1,9 @@
+﻿@model IEnumerable<StoryTeller.Models.Comment>
+
+@Html.DisplayForModel(Model)
+
+@if (!Model.Any())
+{
+    <h3>Sorry!</h3>
+    <p>There is no comments, Be first!</p>
+}

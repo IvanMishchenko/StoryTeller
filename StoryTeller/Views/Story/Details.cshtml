@@ -4,25 +4,6 @@
     ViewBag.Title = "Story";
 }
 
-<h2>@Model.Title written by @Model.User.StoryTellerName in @Model.Created </h2>
-
-<div class="row">
-    <div class="col-md-4">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/b/bb/Mikalojus_Konstantinas_Ciurlionis_-_FAIRY_TALE_(FAIRY_TALE_OF_KINGS)_-_1909.jpg" alt="Alternate Text" width="250" height="300" />
-    </div>
-    <div class="col-md-8">
-        <p>@Model.Text</p>
-    </div>
-</div>
-
-@*@{Html.RenderPartial("_LeaveCommentForm"); }*@
-
-@*@Html.DisplayForModel(Model.Comments)*@
-
-@*<div id="comments-data">
-    @Html.DisplayFor(x => x.Comments)
-</div>*@
-
 <p>
     @if (Model.User.StoryTellerName == ((System.Security.Claims.ClaimsIdentity)User.Identity).FindFirst("StoryTellerName")?.Value)
     {
@@ -36,12 +17,33 @@
 
 </p>
 
+<h2>@Model.Title written by @Model.User.StoryTellerName in @Model.Created </h2>
 
-@*@section scripts
+<div class="row">
+    <div class="col-md-4">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/b/bb/Mikalojus_Konstantinas_Ciurlionis_-_FAIRY_TALE_(FAIRY_TALE_OF_KINGS)_-_1909.jpg" alt="Alternate Text" width="250" height="300" />
+    </div>
+    <div class="col-md-8">
+        <p>@Model.Text</p>
+    </div>
+</div>
+
+  
+
+@{Html.RenderPartial("~/Views/Story/Partial/_LeaveCommentForm.cshtml");}
+
+
+<div id="comments-data">
+    @Html.DisplayFor(x => x.Comments)
+</div>
+
+
+@section scripts
 {
     <script type="text/javascript">
         $(function () {
             $("#leaveComment-btn").click(function () {
+                //debugger;
                 var searchTerm = $("#comment-text").val();
                 if (searchTerm.length == 0) {
                     alert("Enter some comment text.");
@@ -49,7 +51,7 @@
                     return false;
                 }
 
-                $.get("/Stories/LeaveComment", { commentText: searchTerm, postId :@Model.Id.ToString() })
+                $.get("/Story/LeaveComment", { commentText: searchTerm, postId :@Model.Id.ToString() })
                 .success(function (data) {
                     $("#comments-data").html(data);
                 });
@@ -63,4 +65,4 @@
             });
         });
     </script>
-}*@
+}

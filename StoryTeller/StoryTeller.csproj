@@ -285,6 +285,9 @@
     <Content Include="Views\Shared\DisplayTemplates\Post.cshtml" />
     <Content Include="Views\Story\Partial\_SubscribeButton.cshtml" />
     <Content Include="Views\Story\Partial\_UnsubscribeButton.cshtml" />
+    <Content Include="Views\Story\Partial\_LeaveCommentForm.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\Comment.cshtml" />
+    <Content Include="Views\Story\Partial\_CommentsSection.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

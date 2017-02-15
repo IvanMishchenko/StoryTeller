@@ -7,6 +7,7 @@ using StoryTeller.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Threading.Tasks;
+using System;
 
 namespace StoryTeller.Controllers
 {
@@ -22,7 +23,6 @@ namespace StoryTeller.Controllers
             manager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
         }
 
-        // GET: Story
         public ActionResult Index(string id)
         {
             PostsUser postsUser = new PostsUser()
@@ -34,7 +34,6 @@ namespace StoryTeller.Controllers
             return View(postsUser);
         }
 
-        // GET: Story/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -49,15 +48,11 @@ namespace StoryTeller.Controllers
             return View(post);
         }
 
-        // GET: Story/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Story/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "Id,Title,Text,Created,Subtitle")] Post post)
@@ -74,7 +69,6 @@ namespace StoryTeller.Controllers
             return View(post);
         }
 
-        // GET: Story/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
             var currentUser = await manager.FindByIdAsync(User.Identity.GetUserId());
@@ -96,9 +90,6 @@ namespace StoryTeller.Controllers
             return View(post);
         }
 
-        // POST: Story/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit([Bind(Include = "Id,Title,Text,Created")] Post post)
@@ -121,7 +112,6 @@ namespace StoryTeller.Controllers
             return View(post);
         }
 
-        // GET: Story/Delete/5
         public async Task<ActionResult> Delete(int? id)
         {
             var currentUser = await manager.FindByIdAsync(User.Identity.GetUserId());
@@ -141,7 +131,6 @@ namespace StoryTeller.Controllers
             return View(post);
         }
 
-        // POST: Story/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
@@ -193,6 +182,27 @@ namespace StoryTeller.Controllers
             }
 
             return null;
+        }
+
+        public ActionResult LeaveComment(string commentText, string postId)
+        {
+            var currentUser = manager.FindById(User.Identity.GetUserId());
+
+            if (commentText == string.Empty || postId == null || postId == string.Empty)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            Comment comment = new Comment();
+            comment.Created = DateTime.Now;
+            comment.User = currentUser;
+            comment.Text = commentText;
+            comment.Post = db.Posts.FirstOrDefault(x => x.Id.ToString() == postId);
+
+            db.Comments.Add(comment);
+            db.SaveChanges();
+
+            return PartialView("~/Views/Story/Partial/_CommentsSection.cshtml", db.Comments.Where(x => x.Post.Id.ToString() == postId).OrderByDescending(x => x.Created));
         }
 
         protected override void Dispose(bool disposing)
