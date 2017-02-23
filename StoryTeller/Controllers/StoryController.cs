@@ -8,6 +8,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Threading.Tasks;
 using System;
+using System.Web;
+using System.IO;
 
 namespace StoryTeller.Controllers
 {
@@ -55,12 +57,25 @@ namespace StoryTeller.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,Title,Text,Created,Subtitle")] Post post)
+        public async Task<ActionResult> Create([Bind(Include = "Id,Title,Text,Subtitle", Exclude = "PostPhoto")] Post post)
         {
+            byte[] imageData = null;
+            if (Request.Files.Count > 0)
+            {
+                HttpPostedFileBase poImgFile = Request.Files["PostPhoto"];
+
+                using (var binary = new BinaryReader(poImgFile.InputStream))
+                {
+                    imageData = binary.ReadBytes(poImgFile.ContentLength);
+                }
+            }
+
             var currentUser = await manager.FindByIdAsync(User.Identity.GetUserId());
             if (ModelState.IsValid)
             {
                 post.User = currentUser;
+                post.Created = DateTime.Now;
+                post.PostPhoto = imageData;
                 db.Posts.Add(post);
                 db.SaveChanges();
                 return RedirectToAction("Index", new { id = post.User.StoryTellerName });
@@ -92,12 +107,25 @@ namespace StoryTeller.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,Title,Text,Created")] Post post)
+        public async Task<ActionResult> Edit([Bind(Include = "Id,Title,Text", Exclude = "PostPhoto")] Post post)
         {
             var currentUser = await manager.FindByIdAsync(User.Identity.GetUserId());
 
+            byte[] imageData = null;
+            if (Request.Files.Count > 0)
+            {
+                HttpPostedFileBase poImgFile = Request.Files["PostPhoto"];
+
+                using (var binary = new BinaryReader(poImgFile.InputStream))
+                {
+                    imageData = binary.ReadBytes(poImgFile.ContentLength);
+                }
+            }
+
             if (ModelState.IsValid)
             {
+                post.Created = DateTime.Now;
+                post.PostPhoto = imageData;
                 db.Entry(post).State = EntityState.Modified;
                 db.SaveChanges();
 

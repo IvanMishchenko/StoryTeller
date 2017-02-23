@@ -21,7 +21,7 @@
 
 <div class="row">
     <div class="col-md-4">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/b/bb/Mikalojus_Konstantinas_Ciurlionis_-_FAIRY_TALE_(FAIRY_TALE_OF_KINGS)_-_1909.jpg" alt="Alternate Text" width="250" height="300" />
+        <img src="@Url.Action("PostPhotById", "Photo", new { id = Model.Id.ToString() } )" alt="Alternate Text" width="250" height="300" />
     </div>
     <div class="col-md-8">
         <p>@Model.Text</p>

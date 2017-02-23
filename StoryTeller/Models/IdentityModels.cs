@@ -16,6 +16,7 @@ namespace StoryTeller.Models
     {
         public virtual MyUserInfo MyUserInfo { get; set; }
         public string StoryTellerName { get; set; }
+        public byte[] UserPhoto { get; set; }
         public virtual ICollection<Post> Posts { get; set; }
         public virtual ICollection<ApplicationUser> Followers { get; set; }
         public virtual ICollection<ApplicationUser> Following { get; set; }

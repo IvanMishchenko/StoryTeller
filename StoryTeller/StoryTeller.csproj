@@ -198,6 +198,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\PhotoController.cs" />
     <Compile Include="Controllers\StoryController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -205,6 +206,14 @@
     <Compile Include="Migrations\201702122023383_firstMigration.cs" />
     <Compile Include="Migrations\201702122023383_firstMigration.Designer.cs">
       <DependentUpon>201702122023383_firstMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702160858085_addProfilePhotoField.cs" />
+    <Compile Include="Migrations\201702160858085_addProfilePhotoField.Designer.cs">
+      <DependentUpon>201702160858085_addProfilePhotoField.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702231916320_AddPostPhotoField.cs" />
+    <Compile Include="Migrations\201702231916320_AddPostPhotoField.Designer.cs">
+      <DependentUpon>201702231916320_AddPostPhotoField.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -221,6 +230,7 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Images\question-mark.jpg" />
     <Content Include="Content\MyCSS\Post.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -291,6 +301,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Photo\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -303,6 +314,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201702122023383_firstMigration.resx">
       <DependentUpon>201702122023383_firstMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702160858085_addProfilePhotoField.resx">
+      <DependentUpon>201702160858085_addProfilePhotoField.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702231916320_AddPostPhotoField.resx">
+      <DependentUpon>201702231916320_AddPostPhotoField.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
