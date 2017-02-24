@@ -19,6 +19,8 @@ namespace StoryTeller.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
+        private ApplicationDbContext db = new ApplicationDbContext();
+
         public AccountController()
         {
         }
@@ -27,6 +29,20 @@ namespace StoryTeller.Controllers
         {
             UserManager = userManager;
             SignInManager = signInManager;
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public JsonResult doesUserNameExist(string StoryTellerName)
+        {
+
+            var user = db.Users.FirstOrDefault(x => x.StoryTellerName == StoryTellerName);
+
+            if (user != null)
+            {
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
+            return Json(true, JsonRequestBehavior.AllowGet);
         }
 
         public ApplicationSignInManager SignInManager

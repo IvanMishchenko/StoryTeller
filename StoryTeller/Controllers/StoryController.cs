@@ -167,6 +167,7 @@ namespace StoryTeller.Controllers
 
             string StoryTellerName = post.User.StoryTellerName;
 
+            db.Comments.RemoveRange(db.Comments.Where(x => x.Post.Id == id));
             db.Posts.Remove(post);
             db.SaveChanges();
             return RedirectToAction("Index", new { id = StoryTellerName });
