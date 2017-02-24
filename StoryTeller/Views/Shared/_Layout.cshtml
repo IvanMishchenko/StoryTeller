@@ -24,7 +24,8 @@
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    <li>@Html.ActionLink("Contact","Contact", "Home")</li>
+                    <li>@Html.ActionLink("Search", "Index", "Search")</li>
                 </ul>
                 <img src="@Url.Action("UserProfilePhotoByAuthorization", "Photo" )" height="48" width="48" /> 
                 @Html.Partial("_LoginPartial")
