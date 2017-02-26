@@ -61,8 +61,8 @@ else
 
 @section scripts
 {
-    <script type="text/javascript" language="javascript">
-        $(function () {
+        <script type="text/javascript" language="javascript">
+            $(function () {
 
             $(document).on('click', '#subscribe-btn', function(event) {
                 $.get("/Story/Subscribe", { userToSubsribeId: "@Model.userToSubsribe.StoryTellerName" })
