@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using StoryTeller.Models;
+using StoryTeller.Models.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
@@ -12,7 +14,7 @@ namespace StoryTeller.Controllers
         private ApplicationDbContext db;
         private UserManager<ApplicationUser> manager;
 
-        const int postPerPage = 8;
+        const int storyPerPage = 8;
 
         public HomeController()
         {   
@@ -36,26 +38,40 @@ namespace StoryTeller.Controllers
 
         public ActionResult Index(int? id)
         {
+            var user = manager.FindById(User.Identity.GetUserId());
+
             var page = id ?? 0;
 
             if (Request.IsAjaxRequest())
             {
-                return PartialView("~/Views/Home/Partial/_Posts.cshtml", GetPaginatedPosts(page));
+                return PartialView("~/Views/Home/Partial/_Stories.cshtml", GetPaginatedStories(page));
             }
 
-            return View("Index", db.Posts.OrderByDescending(x=>x.Created).Take(postPerPage));
+            List<IStory> listOfStories = db.Posts.ToList<IStory>().Where(x => user.Following.Contains(x.User)).ToList();
+            listOfStories.AddRange(db.BigStories.ToList<IStory>());
+
+            listOfStories.Add(new BigStory
+            {
+                Title = "Something",
+                Text = "Some text",
+                Created = DateTime.Now
+            });
+
+            return View("Index", listOfStories.OrderByDescending(x=>x.Created).Take(storyPerPage));
         }
 
-        private List<Post> GetPaginatedPosts(int page = 1)
+        private List<IStory> GetPaginatedStories(int page = 1)
         {
-            var skipRecords = page * postPerPage;
+            var user = manager.FindById(User.Identity.GetUserId());
+            var skipRecords = page * storyPerPage;
 
-            var listOfPosts = db.Posts;
+            List<IStory> listOfStories = db.Posts.ToList<IStory>().Where(x => user.Following.Contains(x.User)).ToList();
+            listOfStories.AddRange(db.BigStories.ToList<IStory>());
 
-            return listOfPosts.
+            return listOfStories.
                 OrderByDescending(x => x.Created).
                 Skip(skipRecords).
-                Take(postPerPage).ToList();
+                Take(storyPerPage).ToList();
         }
 
 

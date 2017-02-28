@@ -14,5 +14,7 @@ namespace StoryTeller.Models.Interfaces
          string Text { get; set; }
          DateTime Created { get; set; }
          byte[] PostPhoto { get; set; }
+
+         ApplicationUser User { get; set; }
     }
 }

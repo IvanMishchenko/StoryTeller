@@ -55,7 +55,7 @@ namespace StoryTeller.Models
             base.OnModelCreating(modelBuilder);
         }
 
-        public DbSet<BigStory> Stories { get; set; }
+        public DbSet<BigStory> BigStories { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<MyUserInfo> myUserInfos { get; set; }
         public DbSet<Post> Posts { get; set; }

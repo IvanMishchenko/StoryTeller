@@ -1,0 +1,16 @@
+﻿@model IEnumerable<StoryTeller.Models.Interfaces.IStory>
+
+@{
+    foreach (var story in Model)
+    {
+        if (story is StoryTeller.Models.Post)
+        {
+            @Html.Partial("~/Views/Home/Partial/_Post.cshtml", story);
+        }
+        else
+        {
+            @Html.Partial("~/Views/Home/Partial/_BigStory.cshtml", story);
+        }
+    }
+}
+

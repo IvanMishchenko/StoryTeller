@@ -1,4 +1,4 @@
-﻿@model IEnumerable<StoryTeller.Models.Post>
+﻿@model IEnumerable<StoryTeller.Models.Interfaces.IStory>
 
 @{
     ViewBag.Title = "StoryTeller";
@@ -55,7 +55,7 @@
 </p>
 
 <div id="postsList">
-    @Html.Partial("~/Views/Home/Partial/_Posts.cshtml")
+    @Html.Partial("~/Views/Home/Partial/_Stories.cshtml")
 </div>
 
 <div id="loading"></div> 

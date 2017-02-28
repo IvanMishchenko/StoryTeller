@@ -229,6 +229,10 @@
     <Compile Include="Migrations\201702280904541_addIStory.Designer.cs">
       <DependentUpon>201702280904541_addIStory.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201702280936556_addIStoryV2.cs" />
+    <Compile Include="Migrations\201702280936556_addIStoryV2.Designer.cs">
+      <DependentUpon>201702280936556_addIStoryV2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Category.cs" />
@@ -327,7 +331,9 @@
     <Content Include="Views\Admin\Details.cshtml" />
     <Content Include="Views\Admin\Edit.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
-    <Content Include="Views\Home\Partial\_Posts.cshtml" />
+    <Content Include="Views\Home\Partial\_Stories.cshtml" />
+    <Content Include="Views\Home\Partial\_Post.cshtml" />
+    <Content Include="Views\Home\Partial\_BigStory.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -352,6 +358,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201702280904541_addIStory.resx">
       <DependentUpon>201702280904541_addIStory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702280936556_addIStoryV2.resx">
+      <DependentUpon>201702280936556_addIStoryV2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

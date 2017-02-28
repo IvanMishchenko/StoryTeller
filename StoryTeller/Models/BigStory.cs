@@ -30,6 +30,8 @@ namespace StoryTeller.Models
         public int HoursToDiscuss { get; set; }
         public int MaxAllowedNumberOfDislikes { get; set; }
 
+        public virtual ApplicationUser User { get; set; }
+
         public virtual ApplicationUser CurrentUser { get; set; }
         public virtual ICollection<Post> Posts { get; set; }
         public virtual ICollection<ApplicationUser> AllUsers { get; set; }

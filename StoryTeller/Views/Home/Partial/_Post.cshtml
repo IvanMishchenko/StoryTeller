@@ -6,20 +6,15 @@
 <div class="row">
     <div class="col-md-4">
         <img src="@Url.Action("PostPhotById", "Photo", new { id = Model.Id.ToString() } )" , width="300" height="250" />
-       
+
     </div>
     <div class="col-md-5">
 
-        @if (Model.User.StoryTellerName == ((System.Security.Claims.ClaimsIdentity)User.Identity).FindFirst("StoryTellerName")?.Value)
-        {
-            @Html.ActionLink("Edit", "Edit", "Story", new { id = Model.Id }, new { @class = "btn btn-info" })   <span>|</span>
-            @Html.ActionLink("Delete", "Delete", "Story", new { id = Model.Id }, new { @class = "btn btn-danger" })
-        }
-            
-
+        <h1>It's a post class!</h1>
         <h3>@Html.ActionLink(Model.Title, "Details", "Story", new { id = Model.Id }, null) </h3>
         <h4>@Model.Subtitle </h4>
         <p>Written: @Model.Created.ToString("dd/MM/yyyy") </p>
+        <p>By: @Model.User.StoryTellerName</p>
 
         <div class="dot1" style="height: 190px;">
             <p>@Model.Text </p>
