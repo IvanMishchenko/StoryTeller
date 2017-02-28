@@ -14,8 +14,6 @@ namespace StoryTeller.Models
         public string Subtitle { get; set; }
         public string Text { get; set; }
         public byte[] PostPhoto { get; set; }
-        public int Likes { get; set; }
-        public int Dislakes { get; set; }
         public int MaxAmountOffUsers { get; set; }
         public bool IsLocked { get; set; }
 
@@ -37,5 +35,7 @@ namespace StoryTeller.Models
         public virtual ICollection<ApplicationUser> AllUsers { get; set; }
         public virtual Category Category { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
+        public virtual ICollection<Like> Likes { get; set; }
+
     }
 }

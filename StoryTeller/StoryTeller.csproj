@@ -233,12 +233,17 @@
     <Compile Include="Migrations\201702280936556_addIStoryV2.Designer.cs">
       <DependentUpon>201702280936556_addIStoryV2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201702281822213_addLikesTable.cs" />
+    <Compile Include="Migrations\201702281822213_addLikesTable.Designer.cs">
+      <DependentUpon>201702281822213_addLikesTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Comment.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Interfaces\IStory.cs" />
+    <Compile Include="Models\Like.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Post.cs" />
     <Compile Include="Models\PostUser.cs" />
@@ -361,6 +366,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201702280936556_addIStoryV2.resx">
       <DependentUpon>201702280936556_addIStoryV2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702281822213_addLikesTable.resx">
+      <DependentUpon>201702281822213_addLikesTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
