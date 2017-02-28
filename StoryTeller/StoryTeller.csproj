@@ -225,21 +225,27 @@
     <Compile Include="Migrations\201702231916320_AddPostPhotoField.Designer.cs">
       <DependentUpon>201702231916320_AddPostPhotoField.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201702280904541_addIStory.cs" />
+    <Compile Include="Migrations\201702280904541_addIStory.Designer.cs">
+      <DependentUpon>201702280904541_addIStory.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Comment.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\Interfaces\IStory.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Post.cs" />
     <Compile Include="Models\PostUser.cs" />
-    <Compile Include="Models\Story.cs" />
+    <Compile Include="Models\BigStory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Images\ajax-loader.gif" />
     <Content Include="Scripts\jquery.dotdotdot.js" />
     <Content Include="Scripts\jquery.dotdotdot.min.js" />
     <Content Include="Content\Images\question-mark.jpg" />
@@ -321,6 +327,7 @@
     <Content Include="Views\Admin\Details.cshtml" />
     <Content Include="Views\Admin\Edit.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Home\Partial\_Posts.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -342,6 +349,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201702231916320_AddPostPhotoField.resx">
       <DependentUpon>201702231916320_AddPostPhotoField.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702280904541_addIStory.resx">
+      <DependentUpon>201702280904541_addIStory.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

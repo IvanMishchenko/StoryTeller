@@ -1,12 +1,8 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
-using Microsoft.AspNet.Identity.Owin;
 using StoryTeller.Models;
-using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace StoryTeller.Controllers
@@ -16,15 +12,12 @@ namespace StoryTeller.Controllers
         private ApplicationDbContext db;
         private UserManager<ApplicationUser> manager;
 
+        const int postPerPage = 8;
+
         public HomeController()
-        {
+        {   
             db = new ApplicationDbContext();
             manager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
-        }
-
-        public ActionResult Index()
-        {
-            return View();
         }
 
         public ActionResult About()
@@ -40,5 +33,32 @@ namespace StoryTeller.Controllers
 
             return View();
         }
+
+        public ActionResult Index(int? id)
+        {
+            var page = id ?? 0;
+
+            if (Request.IsAjaxRequest())
+            {
+                return PartialView("~/Views/Home/Partial/_Posts.cshtml", GetPaginatedPosts(page));
+            }
+
+            return View("Index", db.Posts.OrderByDescending(x=>x.Created).Take(postPerPage));
+        }
+
+        private List<Post> GetPaginatedPosts(int page = 1)
+        {
+            var skipRecords = page * postPerPage;
+
+            var listOfPosts = db.Posts;
+
+            return listOfPosts.
+                OrderByDescending(x => x.Created).
+                Skip(skipRecords).
+                Take(postPerPage).ToList();
+        }
+
+
+       
     }
 }

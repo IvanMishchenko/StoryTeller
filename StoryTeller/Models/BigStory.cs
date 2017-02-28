@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StoryTeller.Models.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -6,11 +7,13 @@ using System.Web;
 
 namespace StoryTeller.Models
 {
-    public class Story
+    public class BigStory : IStory
     {
         public int Id { get; set; }
         public string Title { get; set; }
         public string Subtitle { get; set; }
+        public string Text { get; set; }
+        public byte[] PostPhoto { get; set; }
         public int Likes { get; set; }
         public int Dislakes { get; set; }
         public int MaxAmountOffUsers { get; set; }

@@ -1,11 +1,12 @@
-﻿using System;
+﻿using StoryTeller.Models.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
 namespace StoryTeller.Models
 {
-    public class Post
+    public class Post : IStory
     {
         public int Id { get; set; }
         public string Title { get; set; }
