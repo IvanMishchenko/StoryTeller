@@ -25,12 +25,9 @@ namespace StoryTeller.Controllers
             if (User.Identity.IsAuthenticated)
             {
                 var StoryTellerName = manager.FindById(User.Identity.GetUserId()).StoryTellerName;
+                var user = db.Users.Where(x => x.StoryTellerName == StoryTellerName).FirstOrDefault();
 
-                // to get the user details to load user Image 
-                var bdUsers = HttpContext.GetOwinContext().Get<ApplicationDbContext>();
-                var userImage = bdUsers.Users.Where(x => x.StoryTellerName == StoryTellerName).FirstOrDefault();
-
-                return new FileContentResult(userImage.UserPhoto, "image/jpeg");
+                return new FileContentResult(user.UserPhoto, "image/jpeg");
             }
             else
             {
@@ -50,20 +47,22 @@ namespace StoryTeller.Controllers
         public FileContentResult UserProfilePhotoById(string id)
         {
                 var StoryTellerName = manager.FindById(User.Identity.GetUserId()).StoryTellerName;
-
-                // to get the user details to load user Image 
-                var bdUsers = HttpContext.GetOwinContext().Get<ApplicationDbContext>();
-                var userImage = bdUsers.Users.Where(x => x.StoryTellerName == id).FirstOrDefault();
+                var userImage = db.Users.Where(x => x.StoryTellerName == id).FirstOrDefault();
 
                 return new FileContentResult(userImage.UserPhoto, "image/jpeg");
         }
 
         public FileContentResult PostPhotById(string id)
         {
-            var bdUsers = HttpContext.GetOwinContext().Get<ApplicationDbContext>();
-            var userImage = bdUsers.Posts.Where(x => x.Id.ToString() == id).FirstOrDefault();
+            var post = db.Posts.Where(x => x.Id.ToString() == id).FirstOrDefault();
 
-            return new FileContentResult(userImage.PostPhoto, "image/jpeg");
+            return new FileContentResult(post.StoryPhoto, "image/jpeg");
+        }
+
+        public FileContentResult BigStoryPhotById(string id)
+        {
+            var bigStory = db.Posts.Where(x => x.Id.ToString() == id).FirstOrDefault();
+            return new FileContentResult(bigStory.StoryPhoto, "image/jpeg");
         }
 
 

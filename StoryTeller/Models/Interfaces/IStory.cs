@@ -10,10 +10,9 @@ namespace StoryTeller.Models.Interfaces
     {
          int Id { get; set; }
          string Title { get; set; }
-         string Subtitle { get; set; }
          string Text { get; set; }
          DateTime Created { get; set; }
-         byte[] PostPhoto { get; set; }
+         byte[] StoryPhoto { get; set; }
 
          ApplicationUser User { get; set; }
     }

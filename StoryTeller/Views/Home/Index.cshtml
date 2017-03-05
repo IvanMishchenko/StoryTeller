@@ -33,7 +33,6 @@
                 else {
                     page = -1;
                 }
-
                 _inCallback = false;
                 $('div#loading').empty();
             });
@@ -48,11 +47,6 @@
         }
     });
 </script>
-
-<h2>@ViewBag.Message</h2>
-<p>
-
-</p>
 
 <div id="postsList">
     @Html.Partial("~/Views/Home/Partial/_Stories.cshtml")

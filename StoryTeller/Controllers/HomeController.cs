@@ -48,14 +48,7 @@ namespace StoryTeller.Controllers
             }
 
             List<IStory> listOfStories = db.Posts.ToList<IStory>().Where(x => user.Following.Contains(x.User)).ToList();
-            listOfStories.AddRange(db.BigStories.ToList<IStory>());
-
-            listOfStories.Add(new BigStory
-            {
-                Title = "Something",
-                Text = "Some text",
-                Created = DateTime.Now
-            });
+            listOfStories.AddRange(db.BigStories.ToList<BigStory>().Where(x =>x.IsLocked == false ));
 
             return View("Index", listOfStories.OrderByDescending(x=>x.Created).Take(storyPerPage));
         }
@@ -66,7 +59,7 @@ namespace StoryTeller.Controllers
             var skipRecords = page * storyPerPage;
 
             List<IStory> listOfStories = db.Posts.ToList<IStory>().Where(x => user.Following.Contains(x.User)).ToList();
-            listOfStories.AddRange(db.BigStories.ToList<IStory>());
+            listOfStories.AddRange(db.BigStories.ToList<BigStory>().Where(x => x.IsLocked == false));
 
             return listOfStories.
                 OrderByDescending(x => x.Created).

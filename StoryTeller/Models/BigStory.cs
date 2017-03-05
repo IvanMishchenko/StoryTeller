@@ -11,10 +11,8 @@ namespace StoryTeller.Models
     {
         public int Id { get; set; }
         public string Title { get; set; }
-        public string Subtitle { get; set; }
         public string Text { get; set; }
-        public byte[] PostPhoto { get; set; }
-        public int MaxAmountOffUsers { get; set; }
+        public byte[] StoryPhoto { get; set; }
         public bool IsLocked { get; set; }
 
         [DataType(DataType.Date)]
@@ -25,10 +23,8 @@ namespace StoryTeller.Models
 
         public int MaxNumberOfPosts { get; set; }
         public int HoursToWrite { get; set; }
-        public int HoursToDiscuss { get; set; }
-        public int MaxAllowedNumberOfDislikes { get; set; }
 
-        public virtual ApplicationUser User { get; set; }
+        public virtual ApplicationUser User { get; set; }       // For IStory  (don't use it)
 
         public virtual ApplicationUser CurrentUser { get; set; }
         public virtual ICollection<Post> Posts { get; set; }

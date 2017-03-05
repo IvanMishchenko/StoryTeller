@@ -205,6 +205,8 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\BigStoriesAdminTempController.cs" />
+    <Compile Include="Controllers\BigStoryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PhotoController.cs" />
@@ -236,6 +238,18 @@
     <Compile Include="Migrations\201702281822213_addLikesTable.cs" />
     <Compile Include="Migrations\201702281822213_addLikesTable.Designer.cs">
       <DependentUpon>201702281822213_addLikesTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703031640357_changePostAndBigStoryClasses.cs" />
+    <Compile Include="Migrations\201703031640357_changePostAndBigStoryClasses.Designer.cs">
+      <DependentUpon>201703031640357_changePostAndBigStoryClasses.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703031654551_changePostAndBigStoryClasses1.cs" />
+    <Compile Include="Migrations\201703031654551_changePostAndBigStoryClasses1.Designer.cs">
+      <DependentUpon>201703031654551_changePostAndBigStoryClasses1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703031655174_changePostAndBigStoryClassesv2.cs" />
+    <Compile Include="Migrations\201703031655174_changePostAndBigStoryClassesv2.Designer.cs">
+      <DependentUpon>201703031655174_changePostAndBigStoryClassesv2.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -339,6 +353,12 @@
     <Content Include="Views\Home\Partial\_Stories.cshtml" />
     <Content Include="Views\Home\Partial\_Post.cshtml" />
     <Content Include="Views\Home\Partial\_BigStory.cshtml" />
+    <Content Include="Views\BigStoriesAdminTemp\Create.cshtml" />
+    <Content Include="Views\BigStoriesAdminTemp\Delete.cshtml" />
+    <Content Include="Views\BigStoriesAdminTemp\Details.cshtml" />
+    <Content Include="Views\BigStoriesAdminTemp\Edit.cshtml" />
+    <Content Include="Views\BigStoriesAdminTemp\Index.cshtml" />
+    <Content Include="Views\BigStory\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -369,6 +389,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201702281822213_addLikesTable.resx">
       <DependentUpon>201702281822213_addLikesTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703031640357_changePostAndBigStoryClasses.resx">
+      <DependentUpon>201703031640357_changePostAndBigStoryClasses.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703031654551_changePostAndBigStoryClasses1.resx">
+      <DependentUpon>201703031654551_changePostAndBigStoryClasses1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703031655174_changePostAndBigStoryClassesv2.resx">
+      <DependentUpon>201703031655174_changePostAndBigStoryClassesv2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
