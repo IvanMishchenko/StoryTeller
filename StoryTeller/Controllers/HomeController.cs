@@ -9,6 +9,7 @@ using System.Web.Mvc;
 
 namespace StoryTeller.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private ApplicationDbContext db;
@@ -39,6 +40,11 @@ namespace StoryTeller.Controllers
         public ActionResult Index(int? id)
         {
             var user = manager.FindById(User.Identity.GetUserId());
+
+            if(user == null)
+            {
+
+            }
 
             var page = id ?? 0;
 

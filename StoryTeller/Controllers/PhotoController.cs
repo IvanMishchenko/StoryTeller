@@ -61,7 +61,7 @@ namespace StoryTeller.Controllers
 
         public FileContentResult BigStoryPhotById(string id)
         {
-            var bigStory = db.Posts.Where(x => x.Id.ToString() == id).FirstOrDefault();
+            var bigStory = db.BigStories.Where(x => x.Id.ToString() == id).FirstOrDefault();
             return new FileContentResult(bigStory.StoryPhoto, "image/jpeg");
         }
 
