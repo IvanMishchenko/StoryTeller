@@ -1,0 +1,45 @@
+﻿@model IEnumerable<StoryTeller.Models.Comment>
+
+@{
+    ViewBag.Title = "CommentIndex";
+}
+
+@Html.ActionLink("Back to panel", "Index", "Admin")
+
+
+<h2>Comments</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.User.StoryTellerName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Text)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Created)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.User.StoryTellerName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Text)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Created)
+        </td>
+
+        <td>
+            @Html.ActionLink("Details", "CommentDetails", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "CommentDelete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

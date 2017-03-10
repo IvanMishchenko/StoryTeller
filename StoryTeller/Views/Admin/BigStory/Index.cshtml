@@ -1,13 +1,15 @@
 ﻿@model IEnumerable<StoryTeller.Models.BigStory>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "BigStoryIndex";
 }
 
-<h2>Index</h2>
+@Html.ActionLink("Back to panel", "Index", "Admin")
+
+<h2>BigStories</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create New", "BigStoryCreate")
 </p>
 <table class="table">
     <tr>
@@ -42,7 +44,9 @@
         </td>
         
         <td>
-            @Html.DisplayFor(modelItem => item.Text)
+            <div class="dot1" style="height: 50px;">
+                @Html.DisplayFor(modelItem => item.Text)
+            </div>
         </td>
        
         <td>
@@ -63,11 +67,20 @@
         
        
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            @Html.ActionLink("Edit", "BigStoryEdit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "BigStoryDetails", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "BigStoryDelete", new { id=item.Id })
         </td>
     </tr>
 }
 
 </table>
+
+@section scripts
+{
+    <script type="text/javascript" language="javascript">
+        $(function () {
+            $('.dot1').dotdotdot();
+        });
+    </script>
+}

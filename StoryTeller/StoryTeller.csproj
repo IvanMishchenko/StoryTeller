@@ -207,6 +207,7 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\BigStoriesAdminTempController.cs" />
     <Compile Include="Controllers\BigStoryController.cs" />
+    <Compile Include="Controllers\CommentsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PhotoController.cs" />
@@ -345,23 +346,27 @@
     <Content Include="Views\Search\Partial\_StoryTellerSearchForm.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\ApplicationUser.cshtml" />
     <Content Include="Views\Search\Partial\_SearchStoryTellerUsers.cshtml" />
-    <Content Include="Views\Admin\Create.cshtml" />
-    <Content Include="Views\Admin\Delete.cshtml" />
-    <Content Include="Views\Admin\Details.cshtml" />
-    <Content Include="Views\Admin\Edit.cshtml" />
-    <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Admin\Post\Delete.cshtml" />
+    <Content Include="Views\Admin\Post\Details.cshtml" />
+    <Content Include="Views\Admin\Post\Index.cshtml" />
     <Content Include="Views\Home\Partial\_Stories.cshtml" />
     <Content Include="Views\Home\Partial\_Post.cshtml" />
     <Content Include="Views\Home\Partial\_BigStory.cshtml" />
-    <Content Include="Views\BigStoriesAdminTemp\Create.cshtml" />
-    <Content Include="Views\BigStoriesAdminTemp\Delete.cshtml" />
-    <Content Include="Views\BigStoriesAdminTemp\Details.cshtml" />
-    <Content Include="Views\BigStoriesAdminTemp\Edit.cshtml" />
-    <Content Include="Views\BigStoriesAdminTemp\Index.cshtml" />
+    <Content Include="Views\Admin\BigStory\Create.cshtml" />
+    <Content Include="Views\Admin\BigStory\Delete.cshtml" />
+    <Content Include="Views\Admin\BigStory\Details.cshtml" />
+    <Content Include="Views\Admin\BigStory\Edit.cshtml" />
+    <Content Include="Views\Admin\BigStory\Index.cshtml" />
     <Content Include="Views\BigStory\Index.cshtml" />
+    <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Admin\Comment\Delete.cshtml" />
+    <Content Include="Views\Admin\Comment\Details.cshtml" />
+    <Content Include="Views\Admin\Comment\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Admin\Category\" />
+    <Folder Include="Views\Admin\User\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

@@ -1,0 +1,61 @@
+﻿@model IEnumerable<StoryTeller.Models.Post>
+
+@{
+    ViewBag.Title = "PostIndex";
+}
+
+@Html.ActionLink("Back to panel", "Index", "Admin")
+
+<h2>Posts</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.User.StoryTellerName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Text)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.Created)
+        </th>      
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.User.StoryTellerName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Title)
+        </td>
+        <td>
+            <div class="dot1" style="height: 50px;">
+                @Html.DisplayFor(modelItem => item.Text)
+            </div>
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Created)
+        </td>
+        <td>
+            @Html.ActionLink("Details", "PostDetails", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "PostDelete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>
+
+@section scripts
+{
+    <script type="text/javascript" language="javascript">
+        $(function () {
+            $('.dot1').dotdotdot();
+        });
+    </script>
+}

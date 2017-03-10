@@ -28,7 +28,7 @@ namespace StoryTeller.Models
 
         public virtual ApplicationUser CurrentUser { get; set; }
         public virtual ICollection<Post> Posts { get; set; }
-        public virtual ICollection<ApplicationUser> AllUsers { get; set; }
+        public virtual ICollection<ApplicationUser> AllUsers { get; set; }   
         public virtual Category Category { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
         public virtual ICollection<Like> Likes { get; set; }

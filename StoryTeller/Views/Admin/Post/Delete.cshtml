@@ -1,7 +1,7 @@
 ﻿@model StoryTeller.Models.Post
 
 @{
-    ViewBag.Title = "Delete";
+    ViewBag.Title = "PostDelete";
 }
 
 <h2>Delete</h2>
@@ -12,6 +12,14 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
+            @Html.DisplayNameFor(model => model.User.StoryTellerName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.User.StoryTellerName)
+        </dd>
+
+        <dt>
             @Html.DisplayNameFor(model => model.Title)
         </dt>
 
@@ -19,13 +27,6 @@
             @Html.DisplayFor(model => model.Title)
         </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Subtitle)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Subtitle)
-        </dd>
 
         <dt>
             @Html.DisplayNameFor(model => model.Text)
@@ -43,13 +44,7 @@
             @Html.DisplayFor(model => model.Created)
         </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.PostPhoto)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.PostPhoto)
-        </dd>
 
     </dl>
 
@@ -58,7 +53,7 @@
 
         <div class="form-actions no-color">
             <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+            @Html.ActionLink("Back to List", "PostIndex")
         </div>
     }
 </div>
