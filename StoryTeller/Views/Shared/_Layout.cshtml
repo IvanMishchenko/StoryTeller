@@ -25,7 +25,7 @@
                     <span class="icon-bar"></span>
                 </button>
 
-                @Html.ActionLink("My Stories", "Index", "Story", new { id = ((System.Security.Claims.ClaimsIdentity)User.Identity).FindFirst("StoryTellerName")?.Value }, new { @class = "navbar-brand" })
+                @Html.ActionLink("My Stories", "Index", "Post", new { id = ((System.Security.Claims.ClaimsIdentity)User.Identity).FindFirst("StoryTellerName")?.Value }, new { @class = "navbar-brand" })
                 @Html.ActionLink("Home", "Index", "Home",null,new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">

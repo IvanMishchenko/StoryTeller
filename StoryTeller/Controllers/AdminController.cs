@@ -35,7 +35,7 @@ namespace StoryTeller.Controllers
 
         public ActionResult PostIndex()
         {
-            return View("~/Views/Admin/Post/Index.cshtml",db.Posts.ToList());
+            return View("~/Views/Admin/Post/Index.cshtml", db.Posts.ToList());
         }
 
         public ActionResult PostDetails(int? id)
@@ -49,7 +49,7 @@ namespace StoryTeller.Controllers
             {
                 return HttpNotFound();
             }
-            return View("~/Views/Admin/Post/Details.cshtml",post);
+            return View("~/Views/Admin/Post/Details.cshtml", post);
         }
 
         public ActionResult PostDelete(int? id)
@@ -63,7 +63,7 @@ namespace StoryTeller.Controllers
             {
                 return HttpNotFound();
             }
-            return View("~/Views/Admin/Post/Delete.cshtml",post);
+            return View("~/Views/Admin/Post/Delete.cshtml", post);
         }
 
         [HttpPost, ActionName("PostDelete")]
@@ -79,7 +79,7 @@ namespace StoryTeller.Controllers
 
         public ActionResult BigStoryIndex()
         {
-            return View("~/Views/Admin/BigStory/Index.cshtml",db.BigStories.ToList());
+            return View("~/Views/Admin/BigStory/Index.cshtml", db.BigStories.ToList());
         }
 
         public ActionResult BigStoryDetails(int? id)
@@ -93,7 +93,7 @@ namespace StoryTeller.Controllers
             {
                 return HttpNotFound();
             }
-            return View("~/Views/Admin/BigStory/Details.cshtml",bigStory);
+            return View("~/Views/Admin/BigStory/Details.cshtml", bigStory);
         }
 
         public ActionResult BigStoryCreate()
@@ -122,7 +122,8 @@ namespace StoryTeller.Controllers
             if (ModelState.IsValid)
             {
                 bigStory.Posts = new List<PartBigStory>();
-                bigStory.Posts.Add(new PartBigStory() {
+                bigStory.Posts.Add(new PartBigStory()
+                {
                     User = currentUser,
                     Created = DateTime.Now,
                     Text = text
@@ -150,7 +151,7 @@ namespace StoryTeller.Controllers
             {
                 return HttpNotFound();
             }
-            return View("~/Views/Admin/BigStory/Edit.cshtml",bigStory);
+            return View("~/Views/Admin/BigStory/Edit.cshtml", bigStory);
         }
 
         [HttpPost]
@@ -199,7 +200,7 @@ namespace StoryTeller.Controllers
             {
                 return HttpNotFound();
             }
-            return View("~/Views/Admin/BigStory/Delete.cshtml",bigStory);
+            return View("~/Views/Admin/BigStory/Delete.cshtml", bigStory);
         }
 
         [HttpPost, ActionName("BigStoryDelete")]
@@ -217,7 +218,7 @@ namespace StoryTeller.Controllers
         public ActionResult BigStoryModerate()
         {
             var bigStories = db.BigStories.Where(x => x.UnModeratedPost != null).ToList();
-            return View("~/Views/Admin/BigStory/Moderate.cshtml",bigStories);
+            return View("~/Views/Admin/BigStory/Moderate.cshtml", bigStories);
         }
 
         public ActionResult BigStoryModerateDetails(int? id)
@@ -233,6 +234,7 @@ namespace StoryTeller.Controllers
             }
             return View("~/Views/Admin/BigStory/ModerateDetails.cshtml", bigStory);
         }
+
         public ActionResult ApproveLastPost(int? id)
         {
             if (id == null)
@@ -244,7 +246,7 @@ namespace StoryTeller.Controllers
             {
                 return HttpNotFound();
             }
-            if (!bigStory.AllUsers.Any(x=>x.StoryTellerName == bigStory.UnModeratedPost.User.StoryTellerName))
+            if (!bigStory.AllUsers.Any(x => x.StoryTellerName == bigStory.UnModeratedPost.User.StoryTellerName))
             {
                 bigStory.AllUsers.Add(bigStory.UnModeratedPost.User);
             }
@@ -260,7 +262,7 @@ namespace StoryTeller.Controllers
         }
         public ActionResult DenyLastPost(int? id)
         {
-            if(id == null)
+            if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
@@ -282,7 +284,7 @@ namespace StoryTeller.Controllers
 
         public ActionResult CommentIndex()
         {
-            return View("~/Views/Admin/Comment/Index.cshtml",db.Comments.ToList());
+            return View("~/Views/Admin/Comment/Index.cshtml", db.Comments.ToList());
         }
 
         public ActionResult CommentDetails(int? id)
@@ -322,8 +324,6 @@ namespace StoryTeller.Controllers
             db.SaveChanges();
             return RedirectToAction("CommentIndex");
         }
-
-        
 
         protected override void Dispose(bool disposing)
         {

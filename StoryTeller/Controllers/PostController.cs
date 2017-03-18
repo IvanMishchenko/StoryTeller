@@ -15,12 +15,12 @@ using System.Data.Entity.Migrations;
 namespace StoryTeller.Controllers
 {
     [Authorize]
-    public class StoryController : Controller
+    public class PostController : Controller
     {
         private ApplicationDbContext db;
         private UserManager<ApplicationUser> manager;
 
-        public StoryController()
+        public PostController()
         {
             db = new ApplicationDbContext();
             manager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
@@ -203,7 +203,7 @@ namespace StoryTeller.Controllers
                 db.Users.FirstOrDefault(x => x.StoryTellerName == userToSubsribeId).Followers.Remove(user);
                 db.Users.FirstOrDefault(x => x.StoryTellerName == user.StoryTellerName).Following.Remove(db.Users.FirstOrDefault(x => x.StoryTellerName == userToSubsribeId));
                 db.SaveChanges();
-                return PartialView("~/Views/Story/Partial/_SubscribeButton.cshtml");
+                return PartialView("~/Views/Post/Partial/_SubscribeButton.cshtml");
             }
             return null;
 
@@ -223,7 +223,7 @@ namespace StoryTeller.Controllers
                 db.Users.FirstOrDefault(x => x.StoryTellerName == userToSubsribeId).Followers.Add(user);
                 db.Users.FirstOrDefault(x => x.StoryTellerName == user.StoryTellerName).Following.Add(db.Users.FirstOrDefault(x => x.StoryTellerName == userToSubsribeId));
                 db.SaveChanges();
-                return PartialView("~/Views/Story/Partial/_UnsubscribeButton.cshtml");
+                return PartialView("~/Views/Post/Partial/_UnsubscribeButton.cshtml");
             }
 
             return null;
@@ -247,7 +247,7 @@ namespace StoryTeller.Controllers
             db.Comments.Add(comment);
             db.SaveChanges();
 
-            return PartialView("~/Views/Story/Partial/_CommentsSection.cshtml", db.Comments.Where(x => x.Post.Id.ToString() == postId).OrderByDescending(x => x.Created));
+            return PartialView("~/Views/Post/Partial/_CommentsSection.cshtml", db.Comments.Where(x => x.Post.Id.ToString() == postId).OrderByDescending(x => x.Created));
         }
 
         protected override void Dispose(bool disposing)

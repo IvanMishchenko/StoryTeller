@@ -30,7 +30,8 @@ namespace StoryTeller.Models
         public virtual ApplicationUser Administrator { get; set; }
         public virtual ICollection<PartBigStory> Posts { get; set; }
         public virtual PartBigStory UnModeratedPost { get; set; }
-        public virtual ICollection<ApplicationUser> AllUsers { get; set; }   
+        public virtual ICollection<ApplicationUser> AllUsers { get; set; }
+        public virtual ICollection<ApplicationUser> BlackList { get; set; }
         public virtual Category Category { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
         public virtual ICollection<Like> Likes { get; set; }

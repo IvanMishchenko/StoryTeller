@@ -7,11 +7,10 @@ using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
 using System.Web.UI;
 using System.Collections.Generic;
+using StoryTeller.Models.Interfaces;
 
 namespace StoryTeller.Models
 {
-    // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit http://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
-
     public class ApplicationUser : IdentityUser
     {
         public virtual MyUserInfo MyUserInfo { get; set; }
@@ -21,13 +20,13 @@ namespace StoryTeller.Models
         public virtual ICollection<Post> Posts { get; set; }
         public virtual ICollection<ApplicationUser> Followers { get; set; }
         public virtual ICollection<ApplicationUser> Following { get; set; }
+        public virtual ICollection<IStory> Bookmarks { get; set; }
+
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
-            // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
             var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
             userIdentity.AddClaim(new Claim("StoryTellerName", this.StoryTellerName));
-        //    userIdentity.AddClaim(new Claim("isWritting", this.isWritting.ToString()));
             return userIdentity;
         }
     }
