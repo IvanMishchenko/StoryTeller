@@ -183,7 +183,7 @@ namespace StoryTeller.Controllers
 
 
 
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, StoryTellerName = model.StoryTellerName, UserPhoto = imageData };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, StoryTellerName = model.StoryTellerName, UserPhoto = imageData,isWritting = false };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

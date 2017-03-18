@@ -7,13 +7,13 @@ namespace StoryTeller.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class changePostAndBigStoryClassesv2 : IMigrationMetadata
+    public sealed partial class ini2 : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(changePostAndBigStoryClassesv2));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(ini2));
         
         string IMigrationMetadata.Id
         {
-            get { return "201703031655174_changePostAndBigStoryClassesv2"; }
+            get { return "201703131311572_ini2"; }
         }
         
         string IMigrationMetadata.Source

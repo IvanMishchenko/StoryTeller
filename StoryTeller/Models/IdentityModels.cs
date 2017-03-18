@@ -16,6 +16,7 @@ namespace StoryTeller.Models
     {
         public virtual MyUserInfo MyUserInfo { get; set; }
         public string StoryTellerName { get; set; }
+        public bool isWritting { get;set;}
         public byte[] UserPhoto { get; set; }
         public virtual ICollection<Post> Posts { get; set; }
         public virtual ICollection<ApplicationUser> Followers { get; set; }
@@ -26,6 +27,7 @@ namespace StoryTeller.Models
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
             var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
             userIdentity.AddClaim(new Claim("StoryTellerName", this.StoryTellerName));
+        //    userIdentity.AddClaim(new Claim("isWritting", this.isWritting.ToString()));
             return userIdentity;
         }
     }
@@ -33,7 +35,6 @@ namespace StoryTeller.Models
     public class MyUserInfo
     {
         public int Id { get; set; }
-        public int Likes { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
     }
@@ -57,10 +58,13 @@ namespace StoryTeller.Models
 
         public DbSet<BigStory> BigStories { get; set; }
         public DbSet<Category> Categories { get; set; }
+
         public DbSet<MyUserInfo> myUserInfos { get; set; }
         public DbSet<Post> Posts { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Like> Likes { get; set; }
+        public DbSet<PartBigStory> PartsBigStory { get; set; }
+
 
     }
 }

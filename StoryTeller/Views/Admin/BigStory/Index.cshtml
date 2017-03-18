@@ -5,7 +5,9 @@
 }
 
 @Html.ActionLink("Back to panel", "Index", "Admin")
-
+<h1>
+    @Html.ActionLink("Moderate", "BigStoryModerate") : @Model.Where(x => x.UnModeratedPost !=null).Count()
+</h1>
 <h2>BigStories</h2>
 
 <p>
@@ -14,10 +16,16 @@
 <table class="table">
     <tr>
         <th>
+            @Html.DisplayNameFor(model => model.Id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Administrator.StoryTellerName)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.Title)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Text)
+            @Html.DisplayNameFor(model => model.Posts.Last().Text)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.IsLocked)
@@ -40,12 +48,18 @@
 @foreach (var item in Model) {
     <tr>
         <td>
+            @Html.DisplayFor(modelItem => item.Id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Administrator.StoryTellerName)
+        </td>
+        <td>
             @Html.DisplayFor(modelItem => item.Title)
         </td>
         
         <td>
             <div class="dot1" style="height: 50px;">
-                @Html.DisplayFor(modelItem => item.Text)
+                @Html.DisplayFor(modelItem => item.Posts.Last().Text)
             </div>
         </td>
        

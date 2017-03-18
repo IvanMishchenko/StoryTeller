@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System;
 using System.Web;
 using System.IO;
+using System.Data.Entity.Migrations;
 
 namespace StoryTeller.Controllers
 {
@@ -29,7 +30,7 @@ namespace StoryTeller.Controllers
         {
             PostsUser postsUser = new PostsUser()
             {
-                Posts = db.Posts.Where(x => x.User.StoryTellerName == id).Include(x => x.User),
+                Posts = db.Posts.Where(x => x.User.StoryTellerName == id && x.Title != null ).Include(x => x.User),
                 userToSubsribe = db.Users.FirstOrDefault(x => x.StoryTellerName == id)
             };
 
@@ -122,11 +123,26 @@ namespace StoryTeller.Controllers
                 }
             }
 
+            var oldPhoto = db.Posts.Find(post.Id).StoryPhoto;
+            var oldCreated = db.Posts.Find(post.Id).Created;
+            var oldUser = db.Posts.Find(post.Id).User;
+            var oldComments = db.Posts.Find(post.Id).Comments;
+            var oldLikes = db.Posts.Find(post.Id).Likes;
             if (ModelState.IsValid)
             {
-                post.Created = DateTime.Now;
-                post.StoryPhoto = imageData;
-                db.Entry(post).State = EntityState.Modified;
+                if(imageData.Count() > 0)
+                {
+                    post.StoryPhoto = imageData;
+                }
+                else
+                {
+                    post.StoryPhoto = oldPhoto;
+                }
+                post.Comments = oldComments;
+                post.Likes = oldLikes;
+                post.Created = oldCreated;
+                post.User = oldUser;
+                db.Set<Post>().AddOrUpdate(post);
                 db.SaveChanges();
 
                 return RedirectToAction("Index", new { id = currentUser.StoryTellerName });

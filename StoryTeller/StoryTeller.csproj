@@ -205,52 +205,27 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
-    <Compile Include="Controllers\BigStoriesAdminTempController.cs" />
     <Compile Include="Controllers\BigStoryController.cs" />
-    <Compile Include="Controllers\CommentsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PhotoController.cs" />
     <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Controllers\StoryController.cs" />
+    <Compile Include="Extensions\IdentityExtensions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201702122023383_firstMigration.cs" />
-    <Compile Include="Migrations\201702122023383_firstMigration.Designer.cs">
-      <DependentUpon>201702122023383_firstMigration.cs</DependentUpon>
+    <Compile Include="Migrations\201703131208428_ini.cs" />
+    <Compile Include="Migrations\201703131208428_ini.Designer.cs">
+      <DependentUpon>201703131208428_ini.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201702160858085_addProfilePhotoField.cs" />
-    <Compile Include="Migrations\201702160858085_addProfilePhotoField.Designer.cs">
-      <DependentUpon>201702160858085_addProfilePhotoField.cs</DependentUpon>
+    <Compile Include="Migrations\201703131311572_ini2.cs" />
+    <Compile Include="Migrations\201703131311572_ini2.Designer.cs">
+      <DependentUpon>201703131311572_ini2.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201702231916320_AddPostPhotoField.cs" />
-    <Compile Include="Migrations\201702231916320_AddPostPhotoField.Designer.cs">
-      <DependentUpon>201702231916320_AddPostPhotoField.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201702280904541_addIStory.cs" />
-    <Compile Include="Migrations\201702280904541_addIStory.Designer.cs">
-      <DependentUpon>201702280904541_addIStory.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201702280936556_addIStoryV2.cs" />
-    <Compile Include="Migrations\201702280936556_addIStoryV2.Designer.cs">
-      <DependentUpon>201702280936556_addIStoryV2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201702281822213_addLikesTable.cs" />
-    <Compile Include="Migrations\201702281822213_addLikesTable.Designer.cs">
-      <DependentUpon>201702281822213_addLikesTable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201703031640357_changePostAndBigStoryClasses.cs" />
-    <Compile Include="Migrations\201703031640357_changePostAndBigStoryClasses.Designer.cs">
-      <DependentUpon>201703031640357_changePostAndBigStoryClasses.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201703031654551_changePostAndBigStoryClasses1.cs" />
-    <Compile Include="Migrations\201703031654551_changePostAndBigStoryClasses1.Designer.cs">
-      <DependentUpon>201703031654551_changePostAndBigStoryClasses1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201703031655174_changePostAndBigStoryClassesv2.cs" />
-    <Compile Include="Migrations\201703031655174_changePostAndBigStoryClassesv2.Designer.cs">
-      <DependentUpon>201703031655174_changePostAndBigStoryClassesv2.cs</DependentUpon>
+    <Compile Include="Migrations\201703151340359_add isWritting.cs" />
+    <Compile Include="Migrations\201703151340359_add isWritting.Designer.cs">
+      <DependentUpon>201703151340359_add isWritting.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -260,8 +235,10 @@
     <Compile Include="Models\Interfaces\IStory.cs" />
     <Compile Include="Models\Like.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\PartBigStory.cs" />
     <Compile Include="Models\Post.cs" />
-    <Compile Include="Models\PostUser.cs" />
+    <Compile Include="Models\ViewModels\BigStoryUser.cs" />
+    <Compile Include="Models\ViewModels\PostUser.cs" />
     <Compile Include="Models\BigStory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -362,6 +339,9 @@
     <Content Include="Views\Admin\Comment\Delete.cshtml" />
     <Content Include="Views\Admin\Comment\Details.cshtml" />
     <Content Include="Views\Admin\Comment\Index.cshtml" />
+    <Content Include="Views\BigStory\Partial\_WriteSection.cshtml" />
+    <Content Include="Views\Admin\BigStory\Moderate.cshtml" />
+    <Content Include="Views\Admin\BigStory\ModerateDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -377,32 +357,14 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201702122023383_firstMigration.resx">
-      <DependentUpon>201702122023383_firstMigration.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201703131208428_ini.resx">
+      <DependentUpon>201703131208428_ini.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201702160858085_addProfilePhotoField.resx">
-      <DependentUpon>201702160858085_addProfilePhotoField.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201703131311572_ini2.resx">
+      <DependentUpon>201703131311572_ini2.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201702231916320_AddPostPhotoField.resx">
-      <DependentUpon>201702231916320_AddPostPhotoField.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201702280904541_addIStory.resx">
-      <DependentUpon>201702280904541_addIStory.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201702280936556_addIStoryV2.resx">
-      <DependentUpon>201702280936556_addIStoryV2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201702281822213_addLikesTable.resx">
-      <DependentUpon>201702281822213_addLikesTable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201703031640357_changePostAndBigStoryClasses.resx">
-      <DependentUpon>201703031640357_changePostAndBigStoryClasses.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201703031654551_changePostAndBigStoryClasses1.resx">
-      <DependentUpon>201703031654551_changePostAndBigStoryClasses1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201703031655174_changePostAndBigStoryClassesv2.resx">
-      <DependentUpon>201703031655174_changePostAndBigStoryClassesv2.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201703151340359_add isWritting.resx">
+      <DependentUpon>201703151340359_add isWritting.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

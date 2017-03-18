@@ -8,12 +8,25 @@ using System.Web;
 using System.Web.Mvc;
 using StoryTeller.Models;
 using System.IO;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System.Data.Entity.Migrations;
+using System.Threading.Tasks;
 
 namespace StoryTeller.Controllers
 {
+    [Authorize]
     public class AdminController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private ApplicationDbContext db;
+        private UserManager<ApplicationUser> manager;
+
+        public AdminController()
+        {
+            db = new ApplicationDbContext();
+            manager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
+            new HomeController().UpdateExpiredStories();
+        }
 
         public ActionResult Index()
         {
@@ -83,19 +96,16 @@ namespace StoryTeller.Controllers
             return View("~/Views/Admin/BigStory/Details.cshtml",bigStory);
         }
 
-        // GET: BigStoriesAdminTemp/Create
         public ActionResult BigStoryCreate()
         {
             return View("~/Views/Admin/BigStory/Create.cshtml");
         }
 
-        // POST: BigStoriesAdminTemp/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult BigStoryCreate([Bind(Include = "Id,Title,Text,MaxNumberOfPosts,IsLocked,Created,Deadline", Exclude = "StoryPhoto")] BigStory bigStory)
+        public ActionResult BigStoryCreate([Bind(Include = "Id,Title,Text,MaxNumberOfPosts,IsLocked,Deadline,HoursToWrite", Exclude = "StoryPhoto,PostText")] BigStory bigStory)
         {
+            var currentUser = manager.FindById(User.Identity.GetUserId());
             byte[] imageData = null;
             if (Request.Files.Count > 0)
             {
@@ -107,8 +117,18 @@ namespace StoryTeller.Controllers
                 }
             }
 
+            var text = Request["PostText"];
+
             if (ModelState.IsValid)
             {
+                bigStory.Posts = new List<PartBigStory>();
+                bigStory.Posts.Add(new PartBigStory() {
+                    User = currentUser,
+                    Created = DateTime.Now,
+                    Text = text
+                });
+                bigStory.Administrator = currentUser;
+                bigStory.UnModeratedPost = null;
                 bigStory.Created = DateTime.Now;
                 bigStory.StoryPhoto = imageData;
                 db.BigStories.Add(bigStory);
@@ -119,7 +139,6 @@ namespace StoryTeller.Controllers
             return View(bigStory);
         }
 
-        // GET: BigStoriesAdminTemp/Edit/5
         public ActionResult BigStoryEdit(int? id)
         {
             if (id == null)
@@ -136,11 +155,33 @@ namespace StoryTeller.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult BigStoryEdit([Bind(Include = "Id,Title,Subtitle,Text,PostPhoto,MaxAmountOffUsers,IsLocked,Created,Deadline,MaxNumberOfPosts,HoursToWrite,HoursToDiscuss,MaxAllowedNumberOfDislikes")] BigStory bigStory)
+        public async Task<ActionResult> BigStoryEdit([Bind(Include = "Id,Title,Created,IsLocked,Deadline,MaxNumberOfPosts,HoursToWrite", Exclude = "StoryPhoto")] BigStory bigStory)
         {
+            var currentUser = await manager.FindByIdAsync(User.Identity.GetUserId());
+
+            byte[] imageData = null;
+            if (Request.Files.Count > 0)
+            {
+                HttpPostedFileBase poImgFile = Request.Files["StoryPhoto"];
+
+                using (var binary = new BinaryReader(poImgFile.InputStream))
+                {
+                    imageData = binary.ReadBytes(poImgFile.ContentLength);
+                }
+            }
+
+            var oldPhoto = db.BigStories.Find(bigStory.Id).StoryPhoto;
             if (ModelState.IsValid)
             {
-                db.Entry(bigStory).State = EntityState.Modified;
+                if (imageData.Count() > 0)
+                {
+                    bigStory.StoryPhoto = imageData;
+                }
+                else
+                {
+                    bigStory.StoryPhoto = oldPhoto;
+                }
+                db.Set<BigStory>().AddOrUpdate(bigStory);
                 db.SaveChanges();
                 return RedirectToAction("BigStoryIndex");
             }
@@ -167,17 +208,83 @@ namespace StoryTeller.Controllers
         {
             BigStory bigStory = db.BigStories.Find(id);
             db.Comments.RemoveRange(bigStory.Comments);
+            db.PartsBigStory.RemoveRange(bigStory.Posts);
             db.BigStories.Remove(bigStory);
             db.SaveChanges();
             return RedirectToAction("BigStoryIndex");
         }
+
+        public ActionResult BigStoryModerate()
+        {
+            var bigStories = db.BigStories.Where(x => x.UnModeratedPost != null).ToList();
+            return View("~/Views/Admin/BigStory/Moderate.cshtml",bigStories);
+        }
+
+        public ActionResult BigStoryModerateDetails(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            BigStory bigStory = db.BigStories.Find(id);
+            if (bigStory == null)
+            {
+                return HttpNotFound();
+            }
+            return View("~/Views/Admin/BigStory/ModerateDetails.cshtml", bigStory);
+        }
+        public ActionResult ApproveLastPost(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            BigStory bigStory = db.BigStories.Include("UnModeratedPost").Where(x => x.Id == id).FirstOrDefault();
+            if (bigStory == null)
+            {
+                return HttpNotFound();
+            }
+            if (!bigStory.AllUsers.Any(x=>x.StoryTellerName == bigStory.UnModeratedPost.User.StoryTellerName))
+            {
+                bigStory.AllUsers.Add(bigStory.UnModeratedPost.User);
+            }
+            bigStory.Posts.Add(bigStory.UnModeratedPost);
+            bigStory.IsLocked = false;
+            bigStory.WhenLocked = null;
+            bigStory.CurrentUser = null;
+            bigStory.UnModeratedPost = null;
+
+            db.SaveChanges();
+
+            return RedirectToAction("BigStoryModerate");
+        }
+        public ActionResult DenyLastPost(int? id)
+        {
+            if(id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            BigStory bigStory = db.BigStories.Include("UnModeratedPost").Where(x => x.Id == id).FirstOrDefault();
+            if (bigStory == null)
+            {
+                return HttpNotFound();
+            }
+            bigStory.IsLocked = false;
+            bigStory.WhenLocked = null;
+            bigStory.CurrentUser = null;
+            bigStory.UnModeratedPost = null;
+
+            db.SaveChanges();
+
+            return RedirectToAction("BigStoryModerate");
+        }
+
 
         public ActionResult CommentIndex()
         {
             return View("~/Views/Admin/Comment/Index.cshtml",db.Comments.ToList());
         }
 
-        // GET: Comments/Details/5
         public ActionResult CommentDetails(int? id)
         {
             if (id == null)
@@ -215,6 +322,8 @@ namespace StoryTeller.Controllers
             db.SaveChanges();
             return RedirectToAction("CommentIndex");
         }
+
+        
 
         protected override void Dispose(bool disposing)
         {

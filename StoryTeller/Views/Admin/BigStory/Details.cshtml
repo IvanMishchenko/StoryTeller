@@ -1,13 +1,14 @@
-﻿@model StoryTeller.Models.BigStory
+﻿
+@model StoryTeller.Models.BigStory
 
 @{
     ViewBag.Title = "BigStoryDetails";
 }
 
+
+
 <h2>Details</h2>
 
-<div>
-    <h4>BigStory</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -16,13 +17,6 @@
 
         <dd>
             @Html.DisplayFor(model => model.Title)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Text)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Text)
         </dd>
 
         <dt>
@@ -65,8 +59,21 @@
             @Html.DisplayFor(model => model.HoursToWrite)
         </dd>
 
+        <dt>
+            Text:
+        </dt>
+        @{
+            foreach (var post in Model.Posts)
+            {
+                <h1>@post.User.StoryTellerName</h1>
+                <p>@post.Text</p>
+                <br />
+            }
+        }
+
     </dl>
-</div>
+
+
 <p>
     @Html.ActionLink("Edit", "BigStoryEdit", new { id = Model.Id }) |
     @Html.ActionLink("Delete", "BigStoryDelete", new { id = Model.Id }) |

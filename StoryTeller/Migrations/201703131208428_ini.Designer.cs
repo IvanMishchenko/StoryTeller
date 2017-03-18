@@ -7,13 +7,13 @@ namespace StoryTeller.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class addLikesTable : IMigrationMetadata
+    public sealed partial class ini : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(addLikesTable));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(ini));
         
         string IMigrationMetadata.Id
         {
-            get { return "201702281822213_addLikesTable"; }
+            get { return "201703131208428_ini"; }
         }
         
         string IMigrationMetadata.Source
