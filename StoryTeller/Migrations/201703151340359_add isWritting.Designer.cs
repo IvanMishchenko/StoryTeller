@@ -7,13 +7,13 @@ namespace StoryTeller.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class firstMigration : IMigrationMetadata
+    public sealed partial class addisWritting : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(firstMigration));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(addisWritting));
         
         string IMigrationMetadata.Id
         {
-            get { return "201702122023383_firstMigration"; }
+            get { return "201703151340359_add isWritting"; }
         }
         
         string IMigrationMetadata.Source

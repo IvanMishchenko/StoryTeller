@@ -8,16 +8,19 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Threading.Tasks;
 using System;
+using System.Web;
+using System.IO;
+using System.Data.Entity.Migrations;
 
 namespace StoryTeller.Controllers
 {
     [Authorize]
-    public class StoryController : Controller
+    public class PostController : Controller
     {
         private ApplicationDbContext db;
         private UserManager<ApplicationUser> manager;
 
-        public StoryController()
+        public PostController()
         {
             db = new ApplicationDbContext();
             manager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
@@ -27,7 +30,7 @@ namespace StoryTeller.Controllers
         {
             PostsUser postsUser = new PostsUser()
             {
-                Posts = db.Posts.Where(x => x.User.StoryTellerName == id).Include(x => x.User),
+                Posts = db.Posts.Where(x => x.User.StoryTellerName == id && x.Title != null ).Include(x => x.User),
                 userToSubsribe = db.Users.FirstOrDefault(x => x.StoryTellerName == id)
             };
 
@@ -55,12 +58,25 @@ namespace StoryTeller.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,Title,Text,Created,Subtitle")] Post post)
+        public async Task<ActionResult> Create([Bind(Include = "Id,Title,Text,Subtitle", Exclude = "StoryPhoto")] Post post)
         {
+            byte[] imageData = null;
+            if (Request.Files.Count > 0)
+            {
+                HttpPostedFileBase poImgFile = Request.Files["StoryPhoto"];
+
+                using (var binary = new BinaryReader(poImgFile.InputStream))
+                {
+                    imageData = binary.ReadBytes(poImgFile.ContentLength);
+                }
+            }
+
             var currentUser = await manager.FindByIdAsync(User.Identity.GetUserId());
             if (ModelState.IsValid)
             {
                 post.User = currentUser;
+                post.Created = DateTime.Now;
+                post.StoryPhoto = imageData;
                 db.Posts.Add(post);
                 db.SaveChanges();
                 return RedirectToAction("Index", new { id = post.User.StoryTellerName });
@@ -92,13 +108,41 @@ namespace StoryTeller.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,Title,Text,Created")] Post post)
+        public async Task<ActionResult> Edit([Bind(Include = "Id,Title,Text", Exclude = "StoryPhoto")] Post post)
         {
             var currentUser = await manager.FindByIdAsync(User.Identity.GetUserId());
 
+            byte[] imageData = null;
+            if (Request.Files.Count > 0)
+            {
+                HttpPostedFileBase poImgFile = Request.Files["StoryPhoto"];
+
+                using (var binary = new BinaryReader(poImgFile.InputStream))
+                {
+                    imageData = binary.ReadBytes(poImgFile.ContentLength);
+                }
+            }
+
+            var oldPhoto = db.Posts.Find(post.Id).StoryPhoto;
+            var oldCreated = db.Posts.Find(post.Id).Created;
+            var oldUser = db.Posts.Find(post.Id).User;
+            var oldComments = db.Posts.Find(post.Id).Comments;
+            var oldLikes = db.Posts.Find(post.Id).Likes;
             if (ModelState.IsValid)
             {
-                db.Entry(post).State = EntityState.Modified;
+                if(imageData.Count() > 0)
+                {
+                    post.StoryPhoto = imageData;
+                }
+                else
+                {
+                    post.StoryPhoto = oldPhoto;
+                }
+                post.Comments = oldComments;
+                post.Likes = oldLikes;
+                post.Created = oldCreated;
+                post.User = oldUser;
+                db.Set<Post>().AddOrUpdate(post);
                 db.SaveChanges();
 
                 return RedirectToAction("Index", new { id = currentUser.StoryTellerName });
@@ -139,6 +183,7 @@ namespace StoryTeller.Controllers
 
             string StoryTellerName = post.User.StoryTellerName;
 
+            db.Comments.RemoveRange(db.Comments.Where(x => x.Post.Id == id));
             db.Posts.Remove(post);
             db.SaveChanges();
             return RedirectToAction("Index", new { id = StoryTellerName });
@@ -158,7 +203,7 @@ namespace StoryTeller.Controllers
                 db.Users.FirstOrDefault(x => x.StoryTellerName == userToSubsribeId).Followers.Remove(user);
                 db.Users.FirstOrDefault(x => x.StoryTellerName == user.StoryTellerName).Following.Remove(db.Users.FirstOrDefault(x => x.StoryTellerName == userToSubsribeId));
                 db.SaveChanges();
-                return PartialView("~/Views/Story/Partial/_SubscribeButton.cshtml");
+                return PartialView("~/Views/Post/Partial/_SubscribeButton.cshtml");
             }
             return null;
 
@@ -178,7 +223,7 @@ namespace StoryTeller.Controllers
                 db.Users.FirstOrDefault(x => x.StoryTellerName == userToSubsribeId).Followers.Add(user);
                 db.Users.FirstOrDefault(x => x.StoryTellerName == user.StoryTellerName).Following.Add(db.Users.FirstOrDefault(x => x.StoryTellerName == userToSubsribeId));
                 db.SaveChanges();
-                return PartialView("~/Views/Story/Partial/_UnsubscribeButton.cshtml");
+                return PartialView("~/Views/Post/Partial/_UnsubscribeButton.cshtml");
             }
 
             return null;
@@ -202,7 +247,7 @@ namespace StoryTeller.Controllers
             db.Comments.Add(comment);
             db.SaveChanges();
 
-            return PartialView("~/Views/Story/Partial/_CommentsSection.cshtml", db.Comments.Where(x => x.Post.Id.ToString() == postId).OrderByDescending(x => x.Created));
+            return PartialView("~/Views/Post/Partial/_CommentsSection.cshtml", db.Comments.Where(x => x.Post.Id.ToString() == postId).OrderByDescending(x => x.Created));
         }
 
         protected override void Dispose(bool disposing)

@@ -4,13 +4,20 @@
     ViewBag.Title = "My Stories";
 }
 
-<h2>@Model.userToSubsribe.StoryTellerName</h2>
-@* <img profile photo> *@
-<p>Total Stories: @Model.Posts.Count() </p>
+<div class="col-md-4">
+    <h2>@Model.userToSubsribe.StoryTellerName</h2>
+    <p>Total Stories: @Model.Posts.Count() </p>
 
-<p>Following: @Model.userToSubsribe.Following.Count()</p>
-<p>Followers:<span id="countFollowers">@Model.userToSubsribe.Followers.Count()</span></p>
+    <p>Following: @Model.userToSubsribe.Following.Count()</p>
+    <p>Followers:<span id="countFollowers">@Model.userToSubsribe.Followers.Count()</span></p>
+</div>
 
+
+<div class="col-md-4">
+    <img src="@Url.Action("UserProfilePhotoById", "Photo",new { id = Model.userToSubsribe.StoryTellerName } )" width="150" height="150" />
+</div>
+
+<div class="clearfix"></div>
 
 <div id="subscribe-area">
     @{
@@ -54,8 +61,8 @@ else
 
 @section scripts
 {
-    <script type="text/javascript" language="javascript">
-        $(function () {
+        <script type="text/javascript" language="javascript">
+            $(function () {
 
             $(document).on('click', '#subscribe-btn', function(event) {
                 $.get("/Story/Subscribe", { userToSubsribeId: "@Model.userToSubsribe.StoryTellerName" })
@@ -83,7 +90,7 @@ else
 
             });
 
-            //$('.dot1').dotdotdot();
+            $('.dot1').dotdotdot();
         });
     </script>
 }

@@ -1,0 +1,24 @@
+﻿@model StoryTeller.Models.BigStory
+
+<link href="~/Content/MyCSS/Post.css" rel="stylesheet" />
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <img src="@Url.Action("BigStoryPhotById", "Photo", new { id = Model.Id.ToString() } )" , width="300" height="250" />
+
+    </div>
+    <div class="col-md-5">
+
+        <h1>It's a BigStory class!</h1>
+        <h3>@Html.ActionLink(Model.Title, "Index", "BigStory", new { id = Model.Id }, null) </h3>
+        <p>Written: @Model.Created.ToString("dd/MM/yyyy") </p>
+       
+
+        <div class="dot1" style="height: 190px;">
+            <p>@Model.Posts.Last().Text </p>
+        </div>
+
+    </div>
+</div>
+

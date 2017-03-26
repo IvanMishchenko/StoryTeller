@@ -1,0 +1,36 @@
+﻿@model StoryTeller.Models.BigStory
+
+@{
+    ViewBag.Title = "BigStoryDetails";
+}
+
+@Html.ActionLink("Back to moderating List", "BigStoryModerate")
+
+
+<h2>Details</h2>
+
+<div>
+    <h4>BigStory Previous:</h4>
+    @{
+        foreach (var post in Model.Posts)
+        {
+            <p>@post.Text</p>
+            <br/>
+        }
+    }
+    <hr />
+
+    <dl class="dl-horizontal">
+        <dt>
+            User: @Html.DisplayFor(model => model.UnModeratedPost.User.StoryTellerName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UnModeratedPost.Text)
+        </dd>
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Approve", "ApproveLastPost", new { id = Model.Id }) |
+    @Html.ActionLink("Deny", "DenyLastPost", new { id = Model.Id }) 
+</p>

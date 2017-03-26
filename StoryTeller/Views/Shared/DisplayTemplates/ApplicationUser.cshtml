@@ -1,0 +1,15 @@
+﻿
+@model StoryTeller.Models.ApplicationUser
+
+<hr />
+<div class="row">
+    <div class="col-md-2">
+        <img src="@Url.Action("UserProfilePhotoById", "Photo",new { id = Model.StoryTellerName } )" width="150" height="150" />
+    </div>
+    <div class="col-md-8">
+        <h3>@Html.ActionLink(Model.StoryTellerName, "Index", "Post", new { id = Model.StoryTellerName }, null) </h3>
+        <p>Number of Stories: @Model.Posts.Count() </p>
+        <p>Subscribers: @Model.Followers.Count()</p>
+    </div>
+</div>
+

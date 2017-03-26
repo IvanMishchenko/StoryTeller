@@ -19,13 +19,6 @@
             @Html.DisplayFor(model => model.Title)
         </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Subtitle)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Subtitle)
-        </dd>
 
         <dt>
             @Html.DisplayNameFor(model => model.Text)
@@ -50,7 +43,7 @@
 
         <div class="form-actions no-color">
             <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index", "Story", new { id = ((System.Security.Claims.ClaimsIdentity)User.Identity).FindFirst("StoryTellerName")?.Value }, null)
+            @Html.ActionLink("Back to List", "Index", "Post", new { id = ((System.Security.Claims.ClaimsIdentity)User.Identity).FindFirst("StoryTellerName")?.Value }, null)
         </div>
     }
 </div>

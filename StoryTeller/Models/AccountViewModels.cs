@@ -82,8 +82,11 @@ namespace StoryTeller.Models
 
         [Required]
         [Display(Name = "StoryTeller name")]
-       // [System.Web.Mvc.Remote("doesUserNameExist", "Account", HttpMethod = "POST", ErrorMessage = "User name already exists. Please enter a different user name.")]
+        [System.Web.Mvc.Remote("doesUserNameExist", "Account", HttpMethod = "POST", ErrorMessage = "User name already exists. Please enter a different user name.")]
         public string StoryTellerName { get; set; }
+
+        [Display(Name = "UserPhoto")]
+        public byte[] UserPhoto { get; set; }
     }
 
     public class ResetPasswordViewModel

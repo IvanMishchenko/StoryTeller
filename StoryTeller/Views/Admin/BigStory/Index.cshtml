@@ -1,0 +1,100 @@
+﻿@model IEnumerable<StoryTeller.Models.BigStory>
+
+@{
+    ViewBag.Title = "BigStoryIndex";
+}
+
+@Html.ActionLink("Back to panel", "Index", "Admin")
+<h1>
+    @Html.ActionLink("Moderate", "BigStoryModerate") : @Model.Where(x => x.UnModeratedPost !=null).Count()
+</h1>
+<h2>BigStories</h2>
+
+<p>
+    @Html.ActionLink("Create New", "BigStoryCreate")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Administrator.StoryTellerName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Posts.Last().Text)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsLocked)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Created)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Deadline)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MaxNumberOfPosts)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HoursToWrite)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Administrator.StoryTellerName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Title)
+        </td>
+        
+        <td>
+            <div class="dot1" style="height: 50px;">
+                @Html.DisplayFor(modelItem => item.Posts.Last().Text)
+            </div>
+        </td>
+       
+        <td>
+            @Html.DisplayFor(modelItem => item.IsLocked)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Created)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Deadline)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MaxNumberOfPosts)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.HoursToWrite)
+        </td>
+        
+       
+        <td>
+            @Html.ActionLink("Edit", "BigStoryEdit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "BigStoryDetails", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "BigStoryDelete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>
+
+@section scripts
+{
+    <script type="text/javascript" language="javascript">
+        $(function () {
+            $('.dot1').dotdotdot();
+        });
+    </script>
+}

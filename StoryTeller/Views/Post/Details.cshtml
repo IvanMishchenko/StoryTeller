@@ -8,11 +8,11 @@
     @if (Model.User.StoryTellerName == ((System.Security.Claims.ClaimsIdentity)User.Identity).FindFirst("StoryTellerName")?.Value)
     {
         @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) <span>|</span>
-        @Html.ActionLink("Back to List", "Index", "Story", new { id = ((System.Security.Claims.ClaimsIdentity)User.Identity).FindFirst("StoryTellerName")?.Value }, null)
+        @Html.ActionLink("Back to List", "Index", "Post", new { id = ((System.Security.Claims.ClaimsIdentity)User.Identity).FindFirst("StoryTellerName")?.Value }, null)
     }
     else
     {
-        @Html.ActionLink("Back to List", "Index", "Story", new { id = Model.User.StoryTellerName }, null)
+        @Html.ActionLink("Back to List", "Index", "Post", new { id = Model.User.StoryTellerName }, null)
     }
 
 </p>
@@ -21,7 +21,7 @@
 
 <div class="row">
     <div class="col-md-4">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/b/bb/Mikalojus_Konstantinas_Ciurlionis_-_FAIRY_TALE_(FAIRY_TALE_OF_KINGS)_-_1909.jpg" alt="Alternate Text" width="250" height="300" />
+        <img src="@Url.Action("PostPhotById", "Photo", new { id = Model.Id.ToString() } )" alt="Alternate Text" width="250" height="300" />
     </div>
     <div class="col-md-8">
         <p>@Model.Text</p>
@@ -30,7 +30,7 @@
 
   
 
-@{Html.RenderPartial("~/Views/Story/Partial/_LeaveCommentForm.cshtml");}
+@{Html.RenderPartial("~/Views/Post/Partial/_LeaveCommentForm.cshtml");}
 
 
 <div id="comments-data">

@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using StoryTeller.Models;
+using System.IO;
 
 namespace StoryTeller.Controllers
 {
@@ -18,6 +19,8 @@ namespace StoryTeller.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
+        private ApplicationDbContext db = new ApplicationDbContext();
+
         public AccountController()
         {
         }
@@ -26,6 +29,20 @@ namespace StoryTeller.Controllers
         {
             UserManager = userManager;
             SignInManager = signInManager;
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public JsonResult doesUserNameExist(string StoryTellerName)
+        {
+
+            var user = db.Users.FirstOrDefault(x => x.StoryTellerName == StoryTellerName);
+
+            if (user != null)
+            {
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
+            return Json(true, JsonRequestBehavior.AllowGet);
         }
 
         public ApplicationSignInManager SignInManager
@@ -147,11 +164,26 @@ namespace StoryTeller.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model)
+        public async Task<ActionResult> Register([Bind(Exclude = "UserPhoto")]RegisterViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, StoryTellerName = model.StoryTellerName };
+
+                // To convert the user uploaded Photo as Byte Array before save to DB
+                byte[] imageData = null;
+                if (Request.Files.Count > 0)
+                {
+                    HttpPostedFileBase poImgFile = Request.Files["UserPhoto"];
+
+                    using (var binary = new BinaryReader(poImgFile.InputStream))
+                    {
+                        imageData = binary.ReadBytes(poImgFile.ContentLength);
+                    }
+                }
+
+
+
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, StoryTellerName = model.StoryTellerName, UserPhoto = imageData,isWritting = false };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

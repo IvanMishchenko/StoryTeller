@@ -1,0 +1,12 @@
+﻿@model IEnumerable<StoryTeller.Models.ApplicationUser>
+
+
+@if (!Model.Any())
+{
+    <h3>Sorry!</h3>
+    <p>Looks like there's no results for that Search</p>
+}
+else
+{
+    @Html.DisplayFor(x => x)
+}

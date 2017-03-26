@@ -1,0 +1,126 @@
+﻿@model StoryTeller.Models.BigStoryUser
+
+
+@{
+    ViewBag.Title = "Story";
+}
+
+<h2>@Model.bigStory.Title written in @Model.bigStory.Created </h2>
+<p>Deadline to: @Model.bigStory.Deadline</p>
+@if (Model.bigStory.CurrentUser != null)
+{
+    <p>User that writting it right now: @Model.bigStory.CurrentUser.StoryTellerName</p>
+}
+
+
+<div class="row">
+    <div class="col-md-4">
+        <img src="@Url.Action("BigStoryPhotById", "Photo", new { id = Model.bigStory.Id.ToString() })" alt="Alternate Text" width="250" height="300" />
+    </div>
+    <div class="col-md-8">
+
+        @{
+            var count = 1;
+            foreach (var post in Model.bigStory.Posts)
+            {
+                <h1>Part @count</h1>
+                <br />
+                <p>@post.Text</p>
+                count++;
+
+            } }
+    </div>
+</div>
+
+@{
+
+    if (Context.User.Identity.IsAuthenticated &&
+         Model.bigStory.Posts.Count() < Model.bigStory.MaxNumberOfPosts &&
+         !Model.bigStory.IsLocked &&
+         Model.loginUser.isWritting == false
+         )
+    {
+        <button type="button" class="btn btn-warning" id="lockStory-btn">Write Story</button>
+    }
+}
+
+<div id="write-section">
+    @{
+        if (Model.bigStory.CurrentUser != null)
+        {
+          if (Context.User.Identity.IsAuthenticated &&
+           Model.bigStory.CurrentUser.StoryTellerName == Model.loginUser.StoryTellerName
+           )
+            {
+                Html.RenderPartial("~/Views/BigStory/Partial/_WriteSection.cshtml");
+            }
+        }
+
+
+    }
+</div>
+
+<div id="comments-section">
+
+    @{Html.RenderPartial("~/Views/Story/Partial/_LeaveCommentForm.cshtml");}
+
+    <div id="comments-data">
+        @Html.DisplayFor(x => x.bigStory.Comments)
+    </div>
+</div>
+
+
+@section scripts
+{
+    <script type="text/javascript">
+        $(function () {
+            $("#leaveComment-btn").click(function () {
+                var searchTerm = $("#comment-text").val();
+                if (searchTerm.length == 0) {
+                    alert("Enter some comment text.");
+                    $("#leaveComment-btn").focus();
+                    return false;
+                }
+
+                $.get("/Story/LeaveComment", { commentText: searchTerm, postId: @Model.bigStory.Id.ToString() })
+                .success(function (data) {
+                    $("#comments-data").html(data);
+                });
+            });
+
+            $("comment-text").keypress(function (e) {
+                if (e.which == 13) {
+                    e.preventDefault();
+                    $("#leaveComment-btn").click();
+                }
+            });
+
+            $(document).on('click', '#writePost-btn', function () {
+                var PostText = $("#post-text").val();
+                if (PostText.length == 0) {
+                    alert("Enter some text.");
+                    $("#writePost-btn").focus();
+                    return false;
+                }
+
+                $.get("/BigStory/Write", { text: PostText, bigStoryId: @Model.bigStory.Id.ToString() })
+                .success(function (data) {
+                    $("#write-section").hide();
+                    alert("Congratulations, you successfully write story, you now has need to wait until moderator approved or"+
+                        "disapproved your part. Now you can write another stories");
+                });
+            });
+
+            $("#lockStory-btn").click(function () {
+                $.get("/BigStory/LockStory", { bigStoryId :@Model.bigStory.Id.ToString() })
+                .success(function (data) {
+                    $("#write-section").html(data);
+                    $("#lockStory-btn").hide();
+                    alert("Congratulations, you successfully locked story, you now has "+@Model.bigStory.HoursToWrite.ToString()+" hours for "+
+                    "writting your part of the story. From now you can't write another stories");
+                });
+            });
+
+        });
+    </script>
+}

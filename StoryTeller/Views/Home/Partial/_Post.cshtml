@@ -1,0 +1,24 @@
+﻿@model StoryTeller.Models.Post
+
+<link href="~/Content/MyCSS/Post.css" rel="stylesheet" />
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <img src="@Url.Action("PostPhotById", "Photo", new { id = Model.Id.ToString() } )" , width="300" height="250" />
+
+    </div>
+    <div class="col-md-5">
+
+        <h3>@Html.ActionLink(Model.Title, "Details", "Story", new { id = Model.Id }, null) </h3>
+        <p>Written: @Model.Created.ToString("dd/MM/yyyy") </p>
+        <p>By: @Model.User.StoryTellerName</p>
+
+        <div class="dot1" style="height: 190px;">
+            <p>@Model.Text </p>
+        </div>
+
+        @Html.ActionLink("Like", "Like","Like", new { @class = "btn btn-default glyphicon glyphicon-hand-up" })
+
+    </div>
+</div>
